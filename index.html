@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Index</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body ng-app="app" ng-controller="indexCtrl">
+<header class="pokemon-header flex flex-justify-between flex-align-center">
+	<h1>Pokedex</h1>
+	<div class="pokemon-filter flex flex-justify-start">
+		<input type="text" ng-model="searchText" placeholder="Search pokemon..." name="" class="width-100">
+	</div>
+</header>
+<section class="container container-pokemon top-20 flex flex-justify-between flex-align-start">
+	<div class="pokemon-cards">
+		
+		<div class="container-pokemon-cards flex flex-justify-around flex-wrap">
+			<div class="pokemon-card flex  flex-column flex-align-center" 
+				 ng-repeat="pokemon in arr_pokemons | filter:searchText"
+				 ng-click="loadInfPokemon(pokemon.id)">
+				<img class="pokemon-img" src="{{pokemon.img}}">
+				<h2 class="pokemon-name">{{pokemon.name}}</h2>
+				<div class="pokemon-skill flex flex-justify-start">
+					<span ng-repeat="skill in pokemon.types" class="default-skill {{skill.type.name}}">{{skill.type.name}}</span>
+				</div>
+			</div>
+			<div class="row width-100 flex flex-justify-center">
+				<a class="load-more flex flex-justify-center flex flex-justify-center flex-align-center" ng-click="loadPokemon()">
+					<span ng-if="loader == false">Load more</span>
+					<div class="loader" ng-if="loader == true"></div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div id="pokemon-view" class="pokemon-view flex flex-justify-center"  ng-show="pokemonObj.name" ng-click="closeView($event)">
+		<div id="pokemon-inf" class="pokemon-inf flex flex-column flex-align-center">
+			<div class="width-100 flex flex-justify-end"><span class="pointer" ng-click="pokemonObj = {}">X</span></div>
+			<img src="{{pokemonObj.sprites.front_default}}">
+			<h2 class="pokemon-name">{{pokemonObj.name}} #{{pokemonObj.id}}</h2>
+			<div class="pokemon-inf-table width-100">
+				<div ng-repeat="x in pokemonObj.stats" class="pokemon-cell width-100 flex  flex-justify-between">
+					<span>{{x.stat.name}}</span>
+					<span>{{x.base_stat}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="js/app/app.js"></script>  
+<script src="js/app/controller/index-ctrl.js"></script> 
+<script src="js/app/factory/factory-crud.js"></script>  
+</body>
+</html>
